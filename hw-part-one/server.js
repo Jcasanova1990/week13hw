@@ -17,6 +17,24 @@ app.get('/greeting/:name', (req, res) => {
     res.send(`Wow! ${randomGreeting}`)
 })
 
+app.get('/tip/:total/:tipPercentage', (req, res) => {
+    try {
+      const total = parseFloat(req.params.total)
+      const tipPercentage = parseFloat(req.params.tipPercentage)
+  
+      if (isNaN(total) || isNaN(tipPercentage)) {
+        throw new Error('Invalid input. Please provide valid total and tipPercentage parameters.')
+      }
+  
+      const tipAmount = (total * tipPercentage) / 100;
+      res.send(`The tip amount for a total of $${total} with a ${tipPercentage}% tip is $${tipAmount.toFixed(2)}`)
+    } catch (error) {
+      res.status(400).send(error.message)
+    }
+  })
+  
+
+
 app.listen(port, () => {
     console.log(`Server is running at port, ${port}`)
 })
